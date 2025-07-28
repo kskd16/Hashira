@@ -28,10 +28,9 @@ long long lagrangeInterpolation(vector<pair<long long, long long>>& points, int 
     return result;
 }
 
-long long solve(string filename) {
-    ifstream file(filename);
+long long solve(istream& input) {
     string line, content;
-    while (getline(file, line)) content += line;
+    while (getline(input, line)) content += line;
     
     // Extract k
     size_t kPos = content.find("\"k\":");
@@ -76,8 +75,16 @@ long long solve(string filename) {
     return lagrangeInterpolation(points, k);
 }
 
-int main() {
-    cout << solve("testcase1.json") << endl;
-    cout << solve("testcase2.json") << endl;
+int main(int argc, char* argv[]) {
+    if (argc > 1) {
+        // Process files from command line arguments
+        for (int i = 1; i < argc; i++) {
+            ifstream file(argv[i]);
+            cout << solve(file) << endl;
+        }
+    } else {
+        // Read from standard input
+        cout << solve(cin) << endl;
+    }
     return 0;
 }
